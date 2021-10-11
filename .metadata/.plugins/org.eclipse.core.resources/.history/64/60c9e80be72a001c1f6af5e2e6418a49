@@ -162,7 +162,7 @@ public class PublisherController {
 		// Save all publishers to the database
 		publisherService.savePublishers(publishers);
 
-		return "Successfully updated files for publishers in the database!";
+		return "Database has been updated with the most recent file for each publisher!";
 
 	}
 
@@ -200,7 +200,7 @@ public class PublisherController {
 			outputFile.close();
 		}
 
-		return "Successfully wrote updated files to output.json!";
+		return "Successfully wrote updated files to output.json";
 	}
 
 	// Convert JSONArray into String
