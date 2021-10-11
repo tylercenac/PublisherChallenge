@@ -1,0 +1,101 @@
+package com.example.demo;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+
+import com.example.demo.controller.PublisherController;
+import com.example.demo.data.PublisherEntity;
+import com.example.demo.repository.PublisherRepository;
+
+
+public class InterviewChallengeApplicationTest extends InterviewChallengeApplicationTests{
+
+	@Autowired
+	private WebApplicationContext webApplicationContext;
+
+	private MockMvc mockMvc;
+	
+	@Autowired
+	PublisherController publisherController;
+
+	@Before
+	public void setup() {
+		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+	}
+	
+	@Test
+	public void test1() throws Exception {
+		
+		System.out.println(publisherController.getPublisherByCode("AbEKUw").getFile());
+		assertEquals(publisherController.getPublisherByCode("AbEKUw").getFile(), "s3://some-special-bucket/production/publisher-data/AbEKUw-c0589a07-c8d1-4fed-b97e-4d15f670fd2c");
+	}
+
+	@Test
+	public void test2() throws Exception {
+		
+		System.out.println(publisherController.getPublisherByCode("kPrPxK").getFile());
+		assertEquals(publisherController.getPublisherByCode("kPrPxK").getFile(), "s3://some-special-bucket/production/publisher-data/kPrPxK-1053bdd4-ca3a-4708-9135-02ed8d1764a3");
+	}
+	
+	
+	
+	@Test
+	public void test3() throws Exception {
+		
+		System.out.println(publisherController.getPublisherByCode("CXaSDI").getFile());
+		assertEquals(publisherController.getPublisherByCode("CXaSDI").getFile(), "s3://some-special-bucket/production/publisher-data/CXaSDI-5bd5d4c8-31dc-49c9-91b4-0f2a6b9864fc");
+	}
+	
+	@Test
+	public void test4() throws Exception {
+		
+		System.out.println(publisherController.getPublisherByCode("NzmzXx").getFile());
+		assertEquals(publisherController.getPublisherByCode("NzmzXx").getFile(), "s3://some-special-bucket/production/publisher-data/NzmzXx-a3deea48-1789-4192-b08a-21faaf3873c2");
+	}
+	
+	@Test
+	public void test5() throws Exception {
+		
+		System.out.println(publisherController.getPublisherByCode("vHqerL").getFile());
+		assertEquals(publisherController.getPublisherByCode("vHqerL").getFile(), "s3://some-special-bucket/production/publisher-data/vHqerL-22c6b911-a9fd-44f3-ad0c-db4b988a8b5b");
+	}
+	
+	@Test
+	public void test6() throws Exception {
+		
+		System.out.println(publisherController.getPublisherByCode("vHqerL").getFile());
+		assertEquals(publisherController.getPublisherByCode("vHqerL").getFile(), "s3://some-special-bucket/production/publisher-data/vHqerL-22c6b911-a9fd-44f3-ad0c-db4b988a8b5b");
+	}
+	
+	@Test
+	public void test7() throws Exception {
+		
+		System.out.println(publisherController.getPublisherByCode("vHqerL").getFile());
+		assertEquals(publisherController.getPublisherByCode("vHqerL").getFile(), "s3://some-special-bucket/production/publisher-data/vHqerL-22c6b911-a9fd-44f3-ad0c-db4b988a8b5b");
+	}
+	
+	@Test
+	public void test8() throws Exception {
+		
+		System.out.println(publisherController.getPublisherByCode("vHqerL").getFile());
+		assertEquals(publisherController.getPublisherByCode("vHqerL").getFile(), "s3://some-special-bucket/production/publisher-data/vHqerL-22c6b911-a9fd-44f3-ad0c-db4b988a8b5b");
+	}
+
+}

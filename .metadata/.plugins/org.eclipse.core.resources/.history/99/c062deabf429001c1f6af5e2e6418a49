@@ -1,0 +1,152 @@
+package com.example.demo.controller;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.data.File;
+import com.example.demo.data.PublisherEntity;
+import com.example.demo.service.PublisherSerivce;
+
+import java.util.Scanner;
+import java.util.Date;
+import java.util.HashMap;
+
+@RestController
+public class PublisherController {
+
+	@Autowired
+	private Environment env;
+	
+	@Autowired
+	private PublisherSerivce publisherService;
+	
+	// Check to verify app is online and working
+	@GetMapping("/status")
+	public String checkStatus() {
+		return "Working on port " + env.getProperty("server.port") + "!";
+	}
+	
+
+	// Import given data from databasePublishers.json
+	@GetMapping("/importPublishers")
+	public String importPublishers(){
+		//JSON parser object to parse read file
+        JSONParser jsonParser = new JSONParser();
+         
+        try (FileReader reader = new FileReader("databasePublishers.json"))
+        {
+            //Read JSON file
+            Object obj = jsonParser.parse(reader);
+ 
+            JSONArray publisherList = (JSONArray) obj;
+            System.out.println(publisherList);
+             
+            //Iterate over publisher array
+            publisherList.forEach( publisher -> parsePublisherObject( (JSONObject) publisher ) );
+ 
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "success";
+	}
+	
+	
+	// View all publishers in database
+	@GetMapping("/allPublishers")
+	public List<PublisherEntity> allPublishers() {
+		
+		return publisherService.getAllPublishers();
+		
+	}
+
+	//STEPS
+	// 1. ITERATE THROUGH FILES AND FIND MOST RECENT FILE FOR EACH PUBLISHER
+	// 2. ITERATE THROUGH PUBLISHERS AND UPDATE FILES
+	@GetMapping("/updatePublishers")
+	public String updateDb() throws IOException {
+		
+		
+		FileInputStream fstream = new FileInputStream("publishersFileList.txt");
+		BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
+
+		String strLine;
+
+		//Read File Line By Line
+		while ((strLine = br.readLine()) != null)   {
+			
+		
+			String[] line = strLine.split(" ");
+			String code = line[2].split("-")[0];
+			String date = line[0];
+			String time = line[1];
+			
+			
+			
+		  // Print the content on the console
+			//System.out.println (code + "/" + date + "/" + time);
+			
+			
+			
+			
+			String datetime = line[0] + " " + line[1];
+			//DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("yyyy-mm-dd hh:mm:ss");
+			
+			//LocalDate dateObj = LocalDate.parse(datetime, inputFormat);
+			
+			System.out.println(datetime);
+			
+			
+			HashMap<String, File> map = new HashMap<String, File>();
+			
+		  
+		  
+		  
+		  
+		}
+
+		//Close the input stream
+		fstream.close();
+		
+		
+		return "Database has been updated with the most recent file for each publisher!";
+		
+	}
+	
+	
+	// Create PublisherEntity from JSON and save to db
+	private void parsePublisherObject(JSONObject publisher) 
+    {
+        
+        String code = (String) publisher.get("code");   
+        String name = (String) publisher.get("name"); 
+        String file = (String) publisher.get("file"); 
+        boolean active = (boolean) publisher.get("active");
+        JSONArray categories = (JSONArray) publisher.get("categories");
+
+        publisherService.savePublisher(new PublisherEntity(code, name, file, active, categories));
+        
+    }
+	
+}

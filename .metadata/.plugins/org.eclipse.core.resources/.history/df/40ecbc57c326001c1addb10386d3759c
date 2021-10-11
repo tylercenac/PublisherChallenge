@@ -1,0 +1,10 @@
+package com.example.demo.data;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="publishers")
+public class PublisherEntity {
+
+}

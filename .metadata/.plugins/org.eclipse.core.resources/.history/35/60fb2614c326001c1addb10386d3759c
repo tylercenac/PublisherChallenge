@@ -1,0 +1,8 @@
+package com.example.demo.data;
+
+
+@Entity
+@Table(name='publishers')
+public class PublisherEntity {
+
+}

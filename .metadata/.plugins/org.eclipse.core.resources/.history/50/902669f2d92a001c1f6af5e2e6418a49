@@ -1,0 +1,23 @@
+package com.example.demo;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+import com.example.demo.controller.PublisherController;
+import com.example.demo.data.PublisherEntity;
+
+class InterviewChallengeApplicationTest {
+
+	@Test
+	void test() {
+		
+		PublisherController controller = new PublisherController();
+		PublisherEntity publisher = controller.getPublisherByCode("kPrPxK");
+		System.out.println(publisher.getFile());
+		
+		//assertEquals(publisher.getFile().substring(51), "kPrPxK-1053bdd4-ca3a-4708-9135-02ed8d1764a3");
+	}
+
+}

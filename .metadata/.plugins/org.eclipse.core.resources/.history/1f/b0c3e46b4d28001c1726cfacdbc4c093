@@ -1,0 +1,79 @@
+package com.example.demo.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.data.PublisherEntity;
+import com.example.demo.service.PublisherSerivce;
+
+import java.util.Scanner;
+import org.json.JSONObject;
+
+@RestController
+public class PublisherController {
+
+	@Autowired
+	private Environment env;
+	
+	@Autowired
+	private PublisherSerivce publisherService;
+	
+	@GetMapping("/status")
+	public String checkStatus() {
+		return "Working on port " + env.getProperty("server.port") + "!";
+	}
+	
+	
+	@GetMapping("/publishers")
+	public List<PublisherEntity> getAllPublishers(){
+		return publisherService.getAllPublishers();
+	}
+	
+	@GetMapping("/publishers2")
+	public String getAllPublishers2(){
+		JSONParser parser = new JSONParser();
+		try {
+			Object obj = parser.parse(new FileReader("//cdn.crunchify.com/Users/Shared/crunchify.json"));
+ 
+			// A JSON object. Key value pairs are unordered. JSONObject supports java.util.Map interface.
+			JSONObject jsonObject = (JSONObject) obj;
+ 
+			// A JSON array. JSONObject supports java.util.List interface.
+			JSONArray companyList = (JSONArray) jsonObject.get("Company List");
+ 
+			// An iterator over a collection. Iterator takes the place of Enumeration in the Java Collections Framework.
+			// Iterators differ from enumerations in two ways:
+			// 1. Iterators allow the caller to remove elements from the underlying collection during the iteration with well-defined semantics.
+			// 2. Method names have been improved.
+			Iterator<JSONObject> iterator = companyList.iterator();
+			while (iterator.hasNext()) {
+				System.out.println(iterator.next());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	@PostMapping("/addPublisher")
+	public PublisherEntity addPublisher(@RequestBody PublisherEntity publisher) {
+		return publisherService.addPublisher(publisher);
+	}
+	
+	@PostMapping("/updateDb")
+	public String updateDb() {
+		
+		
+		
+		
+		return "Database has been updated with the most recent file for each publisher!";
+		
+	}
+	
+}

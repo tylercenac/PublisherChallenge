@@ -1,0 +1,11 @@
+package com.example.demo.data;
+
+import java.util.Date;
+
+public class File {
+
+	private Date date;
+	private String file;
+	
+	
+}

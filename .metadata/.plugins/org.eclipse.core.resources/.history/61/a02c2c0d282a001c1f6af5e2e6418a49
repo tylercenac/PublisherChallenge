@@ -1,0 +1,252 @@
+package com.example.demo.controller;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.data.File;
+import com.example.demo.data.PublisherEntity;
+import com.example.demo.service.PublisherSerivce;
+
+import java.util.Scanner;
+import java.util.Date;
+import java.util.HashMap;
+
+@RestController
+public class PublisherController {
+
+	@Autowired
+	private Environment env;
+	
+	@Autowired
+	private PublisherSerivce publisherService;
+	
+	private HashMap<String, File> updatedFiles = new HashMap<String, File>();
+	final String FILE_BASE = "s3://some-special-bucket/production/publisher-data/";
+	
+	// Check to verify app is working
+	@GetMapping("/status")
+	public String checkStatus() {
+		return "Working on port " + env.getProperty("server.port") + "!";
+	}
+	
+
+	// Import given data from databasePublishers.json
+	@GetMapping("/importPublishers")
+	public String importPublishers(){
+		
+		//JSON parser object to parse read file
+        JSONParser jsonParser = new JSONParser();
+         
+        try (FileReader reader = new FileReader("databasePublishers.json"))
+        {
+            //Read JSON file
+            Object obj = jsonParser.parse(reader);
+ 
+            // Convert input to JSONArray
+            JSONArray publisherList = (JSONArray) obj;
+             
+            //Iterate over publisher array and save each publisher to the database
+            publisherList.forEach( publisher -> savePublisherToDb( (JSONObject) publisher ) );
+ 
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "success";
+	}
+	
+	
+	// View all publishers in database
+	@GetMapping("/allPublishers")
+	public List<PublisherEntity> allPublishers() {
+		
+		return publisherService.getAllPublishers();
+		
+	}
+
+	//STEPS
+	// 1. STEP THROUGH INPUT LINE BY LINE AND FIND MOST RECENT FILE FOR EACH PUBLISHER (STORED IN HASHMAP with <k,v>=<String:code, File:file>
+	// 2. ITERATE THROUGH MAP KEYSET, 
+	@GetMapping("/updatePublishers")
+	public String updateDb() throws IOException, java.text.ParseException {
+		
+		//HashMap<String, File> map = new HashMap<String, File>();
+		
+		FileInputStream fstream = new FileInputStream("publishersFileList.txt");
+		BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
+
+		String strLine;
+
+		//Read File Line By Line
+		while ((strLine = br.readLine()) != null)   {
+			
+		
+			String[] line = strLine.split(" ");
+			String code = line[2].split("-")[0];
+			String datetime = line[0] + " " + line[1];
+
+			
+			SimpleDateFormat dateParser = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			Date date = dateParser.parse(datetime);
+			
+			File file = new File(date, line[2]);
+
+			
+			
+			if(updatedFiles.containsKey(code)) {
+				
+				// check if file is newer than the one already in hashmap
+				if(compareFiles(file, updatedFiles.get(code))) {
+					updatedFiles.put(code, file);
+				}
+			}else{
+				updatedFiles.put(code, file);
+			}
+			
+			
+		  
+		}
+		
+		//Close the input stream
+		fstream.close();
+		
+		List<PublisherEntity> publishers = publisherService.getAllPublishers();
+		
+		// refactor for loop to loop through map keyset, because it can never be bigger than the amount of publishers in the db
+		// 1. iterate through keyset
+		// 2. make call passing code and most recent file
+		// 3. update file for publisher of given code in db
+		for(PublisherEntity publisher : publishers) {
+			
+			if(updatedFiles.get(publisher.getCode().toUpperCase())!=null) {
+				publisher.setFile(FILE_BASE+publisher.getCode()+updatedFiles.get(publisher.getCode().toUpperCase()).getFile().substring(6));
+			}
+			
+			publisherService.savePublisher(publisher);
+		}
+			
+		return "Database has been updated with the most recent file for each publisher!";
+		
+	}
+	
+	
+	@GetMapping("/printDatabase")
+	public String printDatabase() throws IOException {
+		
+		FileWriter outputFile = new FileWriter("D:/Programming/Interview Coding Challenges/Merkle/InterviewChallenge/output.json");
+		JSONArray array = new JSONArray();
+		
+		List<PublisherEntity> publishers = publisherService.getAllPublishers();
+		
+		for(PublisherEntity publisher:publishers) {
+			JSONObject json = new JSONObject();
+			json.put("code", publisher.getCode());
+			json.put("name", publisher.getName());
+			json.put("file", publisher.getFile());
+			json.put("active", publisher.isActive());
+			json.put("categories", publisher.getCategories());
+			array.add(json);
+		}
+		
+		try {
+			outputFile.write(array.toJSONString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			outputFile.flush();
+			outputFile.close();
+		}
+		
+		return "Successfully wrote updated files to output.json";
+	}
+
+	
+	
+	
+	// returns true if file1 is newer than file2
+	private boolean compareFiles(File file1, File file2) {
+		
+		return file1.getDate().after(file2.getDate());
+		
+	}
+	
+	public void getMostRecentFile() throws FileNotFoundException {
+		FileInputStream fstream = new FileInputStream("publishersFileList.txt");
+		BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
+
+		String strLine;
+
+		//Read File Line By Line
+		while ((strLine = br.readLine()) != null)   {
+			
+		
+			String[] line = strLine.split(" ");
+			String code = line[2].split("-")[0];
+			String datetime = line[0] + " " + line[1];
+
+			
+			SimpleDateFormat dateParser = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			Date date = dateParser.parse(datetime);
+			
+			File file = new File(date, line[2]);
+
+			
+			
+			if(updatedFiles.containsKey(code)) {
+				
+				// check if file is newer than the one already in hashmap
+				if(compareFiles(file, updatedFiles.get(code))) {
+					updatedFiles.put(code, file);
+				}
+			}else{
+				updatedFiles.put(code, file);
+			}
+			
+			
+		  
+		}
+		
+		//Close the input stream
+		fstream.close();
+	}
+
+
+	// Create PublisherEntity from JSON and save to db
+	private void savePublisherToDb(JSONObject publisher) 
+    {
+        
+        String code = (String) publisher.get("code");   
+        String name = (String) publisher.get("name"); 
+        String file = (String) publisher.get("file"); 
+        boolean active = (boolean) publisher.get("active");
+        JSONArray categories = (JSONArray) publisher.get("categories");
+
+        publisherService.savePublisher(new PublisherEntity(code, name, file, active, categories));
+        
+    }
+	
+}

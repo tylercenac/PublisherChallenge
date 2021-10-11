@@ -1,0 +1,89 @@
+package com.example.demo.controller;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.List;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.data.PublisherEntity;
+import com.example.demo.service.PublisherSerivce;
+
+import java.util.Scanner;
+
+@RestController
+public class PublisherController {
+
+	@Autowired
+	private Environment env;
+	
+	@Autowired
+	private PublisherSerivce publisherService;
+	
+	@GetMapping("/status")
+	public String checkStatus() {
+		return "Working on port " + env.getProperty("server.port") + "!";
+	}
+	
+
+	
+	@GetMapping("/publishers")
+	public String getAllPublishers(){
+		//JSON parser object to parse read file
+        JSONParser jsonParser = new JSONParser();
+         
+        try (FileReader reader = new FileReader("databasePublishers.json"))
+        {
+            //Read JSON file
+            Object obj = jsonParser.parse(reader);
+ 
+            JSONArray publisherList = (JSONArray) obj;
+            System.out.println(publisherList);
+             
+            //Iterate over publisher array
+            publisherList.forEach( publisher -> parsePublisherObject( (JSONObject) publisher ) );
+ 
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "success";
+	}
+	
+
+	
+	@PostMapping("/updateDb")
+	public String updateDb() {
+		
+		return "Database has been updated with the most recent file for each publisher!";
+		
+	}
+	
+	private void parsePublisherObject(JSONObject publisher) 
+    {
+        
+        String code = (String) publisher.get("code");   
+        String name = (String) publisher.get("name"); 
+        String file = (String) publisher.get("file"); 
+        boolean active = (boolean) publisher.get("active");
+        JSONArray categories = (JSONArray) publisher.get("categories");
+
+        PublisherEntity pub = new PublisherEntity(code, name, file, active, categories);
+        publisherService.addPublisher(pub);
+        
+    }
+	
+}

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="InterviewChallengeApplicationTest" project="InterviewChallenge" tests="4" started="4" failures="0" errors="0" ignored="0">
+  <testsuite name="com.example.demo.InterviewChallengeApplicationTest" time="0.371" displayname="InterviewChallengeApplicationTest" uniqueid="[engine:junit-jupiter]/[class:com.example.demo.InterviewChallengeApplicationTest]">
+    <testcase name="contextLoads" classname="com.example.demo.InterviewChallengeApplicationTest" time="0.094" displayname="contextLoads()" uniqueid="[engine:junit-jupiter]/[class:com.example.demo.InterviewChallengeApplicationTest]/[method:contextLoads()]"/>
+    <testcase name="test1" classname="com.example.demo.InterviewChallengeApplicationTest" time="0.243" displayname="test1()" uniqueid="[engine:junit-jupiter]/[class:com.example.demo.InterviewChallengeApplicationTest]/[method:test1()]"/>
+    <testcase name="test2" classname="com.example.demo.InterviewChallengeApplicationTest" time="0.016" displayname="test2()" uniqueid="[engine:junit-jupiter]/[class:com.example.demo.InterviewChallengeApplicationTest]/[method:test2()]"/>
+    <testcase name="test3" classname="com.example.demo.InterviewChallengeApplicationTest" time="0.017" displayname="test3()" uniqueid="[engine:junit-jupiter]/[class:com.example.demo.InterviewChallengeApplicationTest]/[method:test3()]"/>
+  </testsuite>
+</testrun>

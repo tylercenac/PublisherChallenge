@@ -1,0 +1,9 @@
+package com.example.demo.repository;
+
+import org.springframework.stereotype.CrudRepository;
+import com.example.demo.data.PublisherEntity;
+
+@Repository
+public class PublisherRepository extends CrudRepository<PublisherEntity, String>{
+	
+}

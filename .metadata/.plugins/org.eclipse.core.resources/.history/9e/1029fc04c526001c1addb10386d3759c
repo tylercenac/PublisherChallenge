@@ -1,0 +1,14 @@
+package com.example.demo.controller;
+
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class PublisherController {
+
+	
+	@GetMapping("/status")
+	public String status() {
+		return "Working on port " + env.getProperty("server.port") + "!";
+	}
+	
+}

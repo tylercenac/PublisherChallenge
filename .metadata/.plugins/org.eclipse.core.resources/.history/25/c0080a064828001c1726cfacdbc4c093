@@ -1,0 +1,56 @@
+package com.example.demo.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.data.PublisherEntity;
+import com.example.demo.service.PublisherSerivce;
+
+@RestController
+public class PublisherController {
+
+	@Autowired
+	private Environment env;
+	
+	@Autowired
+	private PublisherSerivce publisherService;
+	
+	@GetMapping("/status")
+	public String checkStatus() {
+		return "Working on port " + env.getProperty("server.port") + "!";
+	}
+	
+	
+	@GetMapping("/publishers")
+	public List<PublisherEntity> getAllPublishers(){
+		return publisherService.getAllPublishers();
+	}
+	
+	@GetMapping("/publishers2")
+	public String getAllPublishers2(){
+		return "publisher string";
+	}
+	
+	
+	@PostMapping("/addPublisher")
+	public PublisherEntity addPublisher(@RequestBody PublisherEntity publisher) {
+		return publisherService.addPublisher(publisher);
+	}
+	
+	@PostMapping("/updateDb")
+	public String updateDb() {
+		
+		
+		
+		
+		return "Database has been updated with the most recent file for each publisher!";
+		
+	}
+	
+}

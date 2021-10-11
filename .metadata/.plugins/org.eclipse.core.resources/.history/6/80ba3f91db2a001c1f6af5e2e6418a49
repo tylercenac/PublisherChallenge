@@ -1,0 +1,34 @@
+package com.example.demo;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.example.demo.controller.PublisherController;
+import com.example.demo.data.PublisherEntity;
+import com.example.demo.repository.PublisherRepository;
+
+@RunWith(SpringRunner.class)
+@WebMvcTest(ArrivalController.class)
+class InterviewChallengeApplicationTest {
+
+	@Autowired
+	PublisherRepository publisherRepository;
+	
+	@Test
+	void test() throws Exception{
+		
+		
+		//PublisherController controller = new PublisherController();
+		PublisherEntity pub = publisherRepository.getPublishersByCode("kPrPxK");
+		//PublisherEntity publisher = controller.getPublisherByCode("MBQWDT");
+		//System.out.println(publisher.getFile());
+		
+		//assertEquals(publisher.getFile().substring(51), "kPrPxK-1053bdd4-ca3a-4708-9135-02ed8d1764a3");
+	}
+
+}

@@ -1,0 +1,31 @@
+package com.example.demo.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class PublisherController {
+
+	@Autowired
+	private Environment env;
+	
+	@Autowired
+	private PublisherSerivce publisherService;
+	
+	@GetMapping("/status")
+	public String status() {
+		return "Working on port " + env.getProperty("server.port") + "!";
+	}
+	
+	
+	@PostMapping("/updateDb")
+	public String updateDb() {
+		publisherSerivce.updateDb();
+		return "Database has been updated with the most recent file for each publisher!";
+		
+	}
+	
+}

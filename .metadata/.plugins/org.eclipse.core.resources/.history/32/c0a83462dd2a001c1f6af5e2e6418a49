@@ -1,0 +1,54 @@
+package com.example.demo;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+
+import com.example.demo.controller.PublisherController;
+import com.example.demo.data.PublisherEntity;
+import com.example.demo.repository.PublisherRepository;
+
+
+public class InterviewChallengeApplicationTest extends InterviewChallengeApplicationTests{
+
+	@Autowired
+	private WebApplicationContext webApplicationContext;
+
+	private MockMvc mockMvc;
+	
+	@Autowired
+	PublisherController publisherController;
+
+	@Before
+	public void setup() {
+		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+	}
+
+	@Test
+	public void testEmployee() throws Exception {
+		
+		System.out.println(publisherController.checkStatus());
+		//mockMvc.perform(get("/publisherByCode/kPrPxK"));
+		//.andExpect(status().isOk())
+				//.andExpect(content().contentType("application/json;charset=UTF-8"));
+				//.andExpect(jsonPath("$.file").value("s3://some-special-bucket/production/publisher-data/kPrPxK-1053bdd4-ca3a-4708-9135-02ed8d1764a3"));
+
+	}
+
+}
