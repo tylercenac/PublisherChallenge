@@ -1,0 +1,6 @@
+com\example\demo\service\PublisherSerivce.class
+com\example\demo\controller\PublisherController.class
+com\example\demo\InterviewChallengeApplication.class
+com\example\demo\data\File.class
+com\example\demo\data\PublisherEntity.class
+com\example\demo\repository\PublisherRepository.class

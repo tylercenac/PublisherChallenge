@@ -27,7 +27,7 @@ public class PublisherSerivce {
 
 	public PublisherEntity getPublisherByCode(String code) {
 		
-		return publisherRepository.getPublishersByCode(code);
+		return publisherRepository.getPublisherByCode(code);
 	}
 	
 	

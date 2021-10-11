@@ -8,6 +8,6 @@ import com.example.demo.data.PublisherEntity;
 @Repository
 public interface PublisherRepository extends CrudRepository<PublisherEntity, String>{
 
-	PublisherEntity getPublishersByCode(String code);
+	PublisherEntity getPublisherByCode(String code);
 
 }

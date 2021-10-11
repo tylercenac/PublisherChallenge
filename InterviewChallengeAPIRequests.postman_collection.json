@@ -1,0 +1,124 @@
+{
+	"info": {
+		"_postman_id": "430059b8-3d98-455d-ad0d-68a66d8097c4",
+		"name": "InterviewChallengeAPIRequests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Status Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8012/status",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8012",
+					"path": [
+						"status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Import Publishers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8012/importPublishers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8012",
+					"path": [
+						"importPublishers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Publishers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8012/allPublishers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8012",
+					"path": [
+						"allPublishers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Publisher By ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8012/publisherByCode/kPrPxK",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8012",
+					"path": [
+						"publisherByCode",
+						"kPrPxK"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Publishers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8012/updatePublishers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8012",
+					"path": [
+						"updatePublishers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Print Database",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8012/printDatabase",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8012",
+					"path": [
+						"printDatabase"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

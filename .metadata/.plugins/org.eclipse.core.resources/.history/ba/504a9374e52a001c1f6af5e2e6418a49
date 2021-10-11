@@ -1,0 +1,112 @@
+package com.example.demo.data;
+
+import java.util.Arrays;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.json.simple.JSONArray;
+
+@Entity
+@Table(name="publishersdb")
+public class PublisherEntity {
+
+	@Id
+	private String code;
+	private String name;
+	private String file;
+	private boolean active;
+	private JSONArray categories;
+	
+
+	public PublisherEntity() {
+		super();
+	}
+	
+	/**
+	 * @param code
+	 * @param name
+	 * @param file
+	 * @param active
+	 * @param categories
+	 */
+	public PublisherEntity(String code, String name, String file, boolean active, JSONArray categories) {
+		this();
+		this.setCode(code);
+		this.setName(name);
+		this.setFile(file);
+		this.setActive(active);
+		this.setCategories(categories);
+	}
+	
+	
+	/**
+	 * @return publisher code
+	 */
+	public String getCode() {
+		return code;
+	}
+	/**
+	 * @param code - the code representing the publisher
+	 */
+	public void setCode(String code) {
+		this.code = code;
+	}
+	/**
+	 * @return
+	 */
+	public String getName() {
+		return name;
+	}
+	/**
+	 * @param name
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+	/**
+	 * @return
+	 */
+	public String getFile() {
+		return file;
+	}
+	/**
+	 * @param file
+	 */
+	public void setFile(String file) {
+		this.file = file;
+	}
+	/**
+	 * @return
+	 */
+	public boolean isActive() {
+		return active;
+	}
+	/**
+	 * @param active
+	 */
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+	/**
+	 * @return categories for a publisher
+	 */
+	public JSONArray getCategories() {
+		return categories;
+	}
+	/**
+	 * @param categories for a publisher
+	 */
+	public void setCategories(JSONArray categories) {
+		this.categories = categories;
+	}
+	
+	@Override
+	public String toString() {
+		return "PublisherEntity [code=" + code + ", name=" + name + ", file=" + file + ", active=" + active
+				+ "]";
+	}
+	
+	
+}

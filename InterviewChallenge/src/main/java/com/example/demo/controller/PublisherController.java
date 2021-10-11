@@ -90,6 +90,7 @@ public class PublisherController {
 	// Find publisher by code
 	@GetMapping("/publisherByCode/{code}")
 	public PublisherEntity getPublisherByCode(@PathVariable String code) {
+		
 		return publisherService.getPublisherByCode(code);
 
 	}
@@ -110,8 +111,7 @@ public class PublisherController {
 			String strLine;
 
 			// Steps through publishersFileList.txt line by line
-			// Finds and stores the most recently updated file for each publisher in the
-			// hashMap
+			// Finds and stores the most recently updated file for each publisher in the hashMap
 			while ((strLine = bufferedReader.readLine()) != null) {
 
 				String[] line = strLine.split(" ");
@@ -122,7 +122,8 @@ public class PublisherController {
 				Date date = dateParser.parse(datetime);
 
 				File file = new File(date, line[2]);
-
+				
+				
 				if (updatedFiles.containsKey(code)) {
 
 					// check if file is newer than the one already in hashMap
