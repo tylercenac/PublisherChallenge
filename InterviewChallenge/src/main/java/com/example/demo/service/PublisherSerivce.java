@@ -29,6 +29,11 @@ public class PublisherSerivce {
 		
 		return publisherRepository.getPublisherByCode(code);
 	}
+
+
+	public PublisherEntity savePublisher(PublisherEntity publisherEntity) {
+		return publisherRepository.save(publisherEntity);
+	}
 	
 	
 	

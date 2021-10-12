@@ -27,19 +27,11 @@ import com.example.demo.repository.PublisherRepository;
 
 public class InterviewChallengeApplicationTest extends InterviewChallengeApplicationTests{
 
-	@Autowired
-	private WebApplicationContext webApplicationContext;
 
-	private MockMvc mockMvc;
-	
 	@Autowired
 	PublisherController publisherController;
 
-	@Before
-	public void setup() {
-		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-	}
-	
+
 	
 	@Test
 	public void test1() throws Exception {

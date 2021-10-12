@@ -49,6 +49,7 @@ public class PublisherController {
 		return "Working on port " + env.getProperty("server.port") + "!";
 	}
 
+
 	// Import provided data from databasePublishers.json
 	@GetMapping("/importPublishers")
 	public String importPublishers() {
@@ -56,7 +57,7 @@ public class PublisherController {
 		// JSON parser object to parse read file
 		JSONParser jsonParser = new JSONParser();
 
-		try (FileReader reader = new FileReader("databasePublishers.json")) {
+		try (FileReader reader = new FileReader("/databasePublishers.json")) {
 			// Store contents of input file in JSONArray
 			JSONArray publisherList = (JSONArray) jsonParser.parse(reader);
 
@@ -105,7 +106,7 @@ public class PublisherController {
 
 		try {
 			// Read from publishersFileList.txt
-			FileInputStream inputStream = new FileInputStream("publishersFileList.txt");
+			FileInputStream inputStream = new FileInputStream("/publishersFileList.txt");
 			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
 			String strLine;
@@ -171,7 +172,7 @@ public class PublisherController {
 
 		// Write output to 'output.json'
 		FileWriter outputFile = new FileWriter(
-				"D:/Programming/Interview Coding Challenges/Merkle/InterviewChallenge/output.json");
+				"output.json");
 
 		// Stores the JSON of each publisher
 		JSONArray outputArray = new JSONArray();
