@@ -6,7 +6,7 @@ In order to run my application:
     4. Populate the database using the 'Import Publishers' request
     5. Update the database with the most recent files using the 'Update Publishers' request
     6. Print the updated database to output.json using the 'Print Database' request
-    7. To view output.json, open the cli inside of the 'publishers-service' and execute the command 'cat output.json'
+    7. To view output.json, open the cli inside of the 'publishers-service' container and execute the command 'cat output.json'
 
 REQUESTS:
 
